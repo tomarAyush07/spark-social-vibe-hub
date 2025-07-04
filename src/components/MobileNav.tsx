@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { Bell, Search, User, Users, Edit } from 'lucide-react';
 
 const navItems = [
-  { name: 'Feed', path: '/', icon: Users },
+  { name: 'Feed', path: '/feed', icon: Users },
   { name: 'Search', path: '/search', icon: Search },
   { name: 'Post', path: '/create', icon: Edit },
   { name: 'Notifications', path: '/notifications', icon: Bell },
@@ -13,7 +13,7 @@ const navItems = [
 
 export const MobileNav = () => {
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-purple-100 px-4 py-2 z-50">
+    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-2 z-50 shadow-lg">
       <nav className="flex justify-around">
         {navItems.map((item) => (
           <NavLink
@@ -22,8 +22,8 @@ export const MobileNav = () => {
             className={({ isActive }) =>
               `flex flex-col items-center py-2 px-3 rounded-lg transition-all duration-200 ${
                 isActive
-                  ? 'text-purple-600'
-                  : 'text-gray-500'
+                  ? 'text-indigo-600'
+                  : 'text-gray-500 hover:text-gray-700'
               }`
             }
           >

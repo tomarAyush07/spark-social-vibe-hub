@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Post } from '@/components/Post';
+import { Plus } from 'lucide-react';
 
 const mockPosts = [
   {
@@ -63,18 +64,18 @@ export const Feed = () => {
       </div>
 
       {/* Stories */}
-      <div className="mb-8 p-4 bg-white rounded-2xl shadow-sm border border-purple-100">
+      <div className="mb-8 p-6 bg-white rounded-2xl shadow-sm border border-gray-100 hover-lift">
         <h3 className="font-semibold text-gray-900 mb-4">Stories</h3>
-        <div className="flex space-x-4 overflow-x-auto">
-          <div className="flex-shrink-0 text-center">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-r from-purple-400 to-blue-400 flex items-center justify-center text-white font-semibold border-4 border-white shadow-lg">
-              +
+        <div className="flex space-x-4 overflow-x-auto pb-2">
+          <div className="flex-shrink-0 text-center cursor-pointer group">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-r from-indigo-400 to-purple-400 flex items-center justify-center text-white font-semibold border-4 border-white shadow-lg group-hover:scale-105 transition-transform duration-200">
+              <Plus className="w-6 h-6" />
             </div>
             <span className="text-xs text-gray-600 mt-2 block">Your Story</span>
           </div>
-          {['Emma', 'James', 'Sofia', 'Ryan'].map((name) => (
-            <div key={name} className="flex-shrink-0 text-center">
-              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-pink-400 to-purple-400 flex items-center justify-center text-white font-semibold border-4 border-white shadow-lg">
+          {['Emma', 'James', 'Sofia', 'Ryan', 'Luna'].map((name) => (
+            <div key={name} className="flex-shrink-0 text-center cursor-pointer group">
+              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-pink-400 to-red-400 flex items-center justify-center text-white font-semibold border-4 border-white shadow-lg group-hover:scale-105 transition-transform duration-200">
                 {name.charAt(0)}
               </div>
               <span className="text-xs text-gray-600 mt-2 block">{name}</span>
@@ -84,15 +85,15 @@ export const Feed = () => {
       </div>
 
       {/* Posts */}
-      <div>
+      <div className="space-y-6">
         {mockPosts.map((post, index) => (
           <Post key={index} {...post} />
         ))}
       </div>
 
       {/* Load More */}
-      <div className="text-center">
-        <button className="px-8 py-3 bg-purple-50 text-purple-600 rounded-xl hover:bg-purple-100 transition-colors font-medium">
+      <div className="text-center mt-8">
+        <button className="px-8 py-3 bg-indigo-50 text-indigo-600 rounded-xl hover:bg-indigo-100 transition-colors font-medium hover-lift border border-indigo-200">
           Load More Posts
         </button>
       </div>

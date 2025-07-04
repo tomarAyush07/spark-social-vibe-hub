@@ -20,8 +20,8 @@ export const Login = () => {
     setTimeout(() => {
       setLoading(false);
       toast.success('Welcome back to Vibe Social!');
-      navigate('/');
-    }, 1500);
+      navigate('/feed');
+    }, 1000);
   };
 
   return (
@@ -48,7 +48,7 @@ export const Login = () => {
         <div className="flex items-center justify-between">
           <Link 
             to="/forgot-password" 
-            className="text-sm text-purple-600 hover:text-purple-700 transition-colors"
+            className="text-sm text-indigo-600 hover:text-indigo-700 transition-colors font-medium"
           >
             Forgot password?
           </Link>
@@ -62,7 +62,7 @@ export const Login = () => {
           <span className="text-gray-600">Don't have an account? </span>
           <Link 
             to="/register" 
-            className="text-purple-600 hover:text-purple-700 font-semibold transition-colors"
+            className="text-indigo-600 hover:text-indigo-700 font-semibold transition-colors"
           >
             Sign up
           </Link>
