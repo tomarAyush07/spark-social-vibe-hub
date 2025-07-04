@@ -1,21 +1,23 @@
 
 import React, { useState } from 'react';
-import { Heart, MessageSquare, Share, Bookmark } from 'lucide-react';
-import { toast } from 'sonner';
+import { Heart, MessageSquare, Repeat2, Bookmark, Share, MoreHorizontal } from 'lucide-react';
 
 interface PostProps {
+  id?: number;
   author: {
     name: string;
     username: string;
-    avatar: string;
+    avatar?: string;
+    verified?: boolean;
   };
   content: string;
   image?: string;
   timestamp: string;
   likes: number;
   comments: number;
+  reposts?: number;
   isLiked?: boolean;
-  isSaved?: boolean;
+  isBookmarked?: boolean;
 }
 
 export const Post: React.FC<PostProps> = ({
@@ -23,89 +25,146 @@ export const Post: React.FC<PostProps> = ({
   content,
   image,
   timestamp,
-  likes,
+  likes: initialLikes,
   comments,
+  reposts = 0,
   isLiked = false,
-  isSaved = false,
+  isBookmarked = false
 }) => {
   const [liked, setLiked] = useState(isLiked);
-  const [saved, setSaved] = useState(isSaved);
-  const [likeCount, setLikeCount] = useState(likes);
+  const [bookmarked, setBookmarked] = useState(isBookmarked);
+  const [reposted, setReposted] = useState(false);
+  const [likes, setLikes] = useState(initialLikes);
+  const [showMenu, setShowMenu] = useState(false);
 
   const handleLike = () => {
     setLiked(!liked);
-    setLikeCount(prev => liked ? prev - 1 : prev + 1);
-    toast.success(liked ? 'Removed from likes' : 'Added to likes');
+    setLikes(prev => liked ? prev - 1 : prev + 1);
   };
 
-  const handleSave = () => {
-    setSaved(!saved);
-    toast.success(saved ? 'Removed from bookmarks' : 'Added to bookmarks');
+  const handleBookmark = () => {
+    setBookmarked(!bookmarked);
   };
 
-  const handleShare = () => {
-    toast.success('Link copied to clipboard!');
+  const handleRepost = () => {
+    setReposted(!reposted);
   };
 
   return (
-    <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm border border-purple-100 hover:shadow-md transition-all duration-200">
-      {/* Author Info */}
-      <div className="flex items-center mb-4">
-        <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-400 to-blue-400 flex items-center justify-center text-white font-semibold">
-          {author.name.charAt(0)}
+    <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20 hover:shadow-xl transition-all duration-300 group">
+      {/* Post Header */}
+      <div className="flex items-start justify-between mb-4">
+        <div className="flex items-center space-x-3">
+          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-blue-500 flex items-center justify-center text-white font-bold shadow-lg">
+            {author.avatar ? (
+              <img src={author.avatar} alt={author.name} className="w-full h-full rounded-full object-cover" />
+            ) : (
+              author.name.charAt(0)
+            )}
+          </div>
+          <div>
+            <div className="flex items-center space-x-2">
+              <h3 className="font-bold text-gray-900 hover:text-purple-600 cursor-pointer transition-colors">
+                {author.name}
+              </h3>
+              {author.verified && (
+                <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
+                  <div className="w-2 h-2 bg-white rounded-full"></div>
+                </div>
+              )}
+            </div>
+            <p className="text-sm text-gray-500">@{author.username} • {timestamp}</p>
+          </div>
         </div>
-        <div className="ml-3">
-          <h3 className="font-semibold text-gray-900">{author.name}</h3>
-          <p className="text-sm text-gray-500">@{author.username} • {timestamp}</p>
+        
+        <div className="relative">
+          <button 
+            onClick={() => setShowMenu(!showMenu)}
+            className="p-2 rounded-full hover:bg-gray-100 transition-all duration-200 opacity-0 group-hover:opacity-100"
+          >
+            <MoreHorizontal className="w-4 h-4 text-gray-500" />
+          </button>
+          
+          {showMenu && (
+            <div className="absolute right-0 top-full mt-2 bg-white rounded-xl shadow-xl border border-gray-200 py-2 z-50 min-w-[160px]">
+              <button className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                Copy link
+              </button>
+              <button className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors">
+                Report post
+              </button>
+              <button className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 transition-colors">
+                Block user
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Content */}
-      <p className="text-gray-800 mb-4 leading-relaxed">{content}</p>
+      {/* Post Content */}
+      <div className="mb-4">
+        <p className="text-gray-800 leading-relaxed">{content}</p>
+        
+        {image && (
+          <div className="mt-4 rounded-2xl overflow-hidden bg-gray-100">
+            <img 
+              src={image} 
+              alt="Post content" 
+              className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300 cursor-pointer"
+            />
+          </div>
+        )}
+      </div>
 
-      {/* Image */}
-      {image && (
-        <div className="mb-4 rounded-xl overflow-hidden">
-          <img 
-            src={image} 
-            alt="Post content" 
-            className="w-full h-64 object-cover hover:scale-105 transition-transform duration-300"
-          />
-        </div>
-      )}
-
-      {/* Actions */}
+      {/* Post Actions */}
       <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-        <button
-          onClick={handleLike}
-          className={`flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-red-50 transition-colors ${
-            liked ? 'text-red-500' : 'text-gray-500'
-          }`}
-        >
-          <Heart className={`w-5 h-5 ${liked ? 'fill-current' : ''}`} />
-          <span className="text-sm font-medium">{likeCount}</span>
-        </button>
-
-        <button className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-blue-50 text-gray-500 hover:text-blue-500 transition-colors">
-          <MessageSquare className="w-5 h-5" />
-          <span className="text-sm font-medium">{comments}</span>
-        </button>
-
-        <button
-          onClick={handleShare}
-          className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-green-50 text-gray-500 hover:text-green-500 transition-colors"
-        >
-          <Share className="w-5 h-5" />
-        </button>
-
-        <button
-          onClick={handleSave}
-          className={`flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-yellow-50 transition-colors ${
-            saved ? 'text-yellow-500' : 'text-gray-500'
-          }`}
-        >
-          <Bookmark className={`w-5 h-5 ${saved ? 'fill-current' : ''}`} />
-        </button>
+        <div className="flex items-center space-x-6">
+          <button 
+            onClick={handleLike}
+            className={`flex items-center space-x-2 p-2 rounded-xl transition-all duration-300 hover:scale-110 ${
+              liked 
+                ? 'text-red-500 bg-red-50 hover:bg-red-100' 
+                : 'text-gray-500 hover:text-red-500 hover:bg-red-50'
+            }`}
+          >
+            <Heart className={`w-5 h-5 ${liked ? 'fill-current' : ''}`} />
+            <span className="text-sm font-medium">{likes}</span>
+          </button>
+          
+          <button className="flex items-center space-x-2 p-2 rounded-xl text-gray-500 hover:text-blue-500 hover:bg-blue-50 transition-all duration-300 hover:scale-110">
+            <MessageSquare className="w-5 h-5" />
+            <span className="text-sm font-medium">{comments}</span>
+          </button>
+          
+          <button 
+            onClick={handleRepost}
+            className={`flex items-center space-x-2 p-2 rounded-xl transition-all duration-300 hover:scale-110 ${
+              reposted 
+                ? 'text-green-500 bg-green-50 hover:bg-green-100' 
+                : 'text-gray-500 hover:text-green-500 hover:bg-green-50'
+            }`}
+          >
+            <Repeat2 className="w-5 h-5" />
+            <span className="text-sm font-medium">{reposts}</span>
+          </button>
+        </div>
+        
+        <div className="flex items-center space-x-2">
+          <button 
+            onClick={handleBookmark}
+            className={`p-2 rounded-xl transition-all duration-300 hover:scale-110 ${
+              bookmarked 
+                ? 'text-purple-500 bg-purple-50 hover:bg-purple-100' 
+                : 'text-gray-500 hover:text-purple-500 hover:bg-purple-50'
+            }`}
+          >
+            <Bookmark className={`w-5 h-5 ${bookmarked ? 'fill-current' : ''}`} />
+          </button>
+          
+          <button className="p-2 rounded-xl text-gray-500 hover:text-indigo-500 hover:bg-indigo-50 transition-all duration-300 hover:scale-110">
+            <Share className="w-5 h-5" />
+          </button>
+        </div>
       </div>
     </div>
   );
