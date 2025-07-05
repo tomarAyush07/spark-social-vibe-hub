@@ -282,9 +282,93 @@ export const Landing: React.FC = () => {
             </div>
           </div>
         </div>
-        {/* Social Illustration */}
+        {/* Interactive Social Illustration */}
         <div className="relative z-10 flex justify-center mb-8">
-          <img src="/social-illustration.svg" alt="People connecting and sharing" className="w-72 md:w-96 h-auto rounded-2xl shadow-xl border-4 border-white bg-gradient-to-br from-indigo-100 to-purple-100 object-contain" />
+          <div className="w-80 md:w-96 h-64 rounded-2xl shadow-xl border-4 border-white bg-gradient-to-br from-indigo-50 via-white to-purple-50 relative overflow-hidden">
+            {/* Background Pattern */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute top-4 left-4 w-2 h-2 bg-indigo-400 rounded-full animate-pulse"></div>
+              <div className="absolute top-8 right-8 w-1 h-1 bg-purple-400 rounded-full animate-pulse" style={{animationDelay: '0.5s'}}></div>
+              <div className="absolute bottom-6 left-8 w-1.5 h-1.5 bg-pink-400 rounded-full animate-pulse" style={{animationDelay: '1s'}}></div>
+              <div className="absolute bottom-12 right-4 w-1 h-1 bg-indigo-400 rounded-full animate-pulse" style={{animationDelay: '1.5s'}}></div>
+            </div>
+            
+            {/* Central Hub */}
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg animate-pulse">
+                <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                  <span className="text-indigo-600 text-lg font-bold">V</span>
+                </div>
+              </div>
+            </div>
+            
+            {/* Connected Users */}
+            <div className="absolute top-6 left-6 w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center shadow-md animate-float-1">
+              <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
+                <span className="text-blue-600 text-sm font-bold">A</span>
+              </div>
+            </div>
+            
+            <div className="absolute top-8 right-8 w-10 h-10 bg-gradient-to-br from-pink-400 to-pink-600 rounded-full flex items-center justify-center shadow-md animate-float-2">
+              <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
+                <span className="text-pink-600 text-xs font-bold">M</span>
+              </div>
+            </div>
+            
+            <div className="absolute bottom-8 left-8 w-11 h-11 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center shadow-md animate-float-3">
+              <div className="w-7 h-7 bg-white rounded-full flex items-center justify-center">
+                <span className="text-green-600 text-sm font-bold">D</span>
+              </div>
+            </div>
+            
+            <div className="absolute bottom-6 right-6 w-9 h-9 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center shadow-md animate-float-4">
+              <div className="w-5 h-5 bg-white rounded-full flex items-center justify-center">
+                <span className="text-yellow-600 text-xs font-bold">S</span>
+              </div>
+            </div>
+            
+            {/* Connection Lines */}
+            <svg className="absolute inset-0 w-full h-full pointer-events-none">
+              <defs>
+                <linearGradient id="connectionGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#6366f1" stopOpacity="0.3" />
+                  <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.3" />
+                </linearGradient>
+              </defs>
+              <line x1="50%" y1="50%" x2="25%" y2="25%" stroke="url(#connectionGradient)" strokeWidth="2" className="animate-pulse" />
+              <line x1="50%" y1="50%" x2="75%" y2="25%" stroke="url(#connectionGradient)" strokeWidth="2" className="animate-pulse" style={{animationDelay: '0.3s'}} />
+              <line x1="50%" y1="50%" x2="25%" y2="75%" stroke="url(#connectionGradient)" strokeWidth="2" className="animate-pulse" style={{animationDelay: '0.6s'}} />
+              <line x1="50%" y1="50%" x2="75%" y2="75%" stroke="url(#connectionGradient)" strokeWidth="2" className="animate-pulse" style={{animationDelay: '0.9s'}} />
+            </svg>
+            
+            {/* Floating Elements */}
+            <div className="absolute top-4 left-1/2 transform -translate-x-1/2">
+              <div className="bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-medium text-indigo-600 shadow-sm animate-float-5">
+                💬 Messages
+              </div>
+            </div>
+            
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
+              <div className="bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-medium text-purple-600 shadow-sm animate-float-1">
+                ❤️ Likes
+              </div>
+            </div>
+            
+            <div className="absolute top-1/2 left-4 transform -translate-y-1/2">
+              <div className="bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-medium text-pink-600 shadow-sm animate-float-3">
+                📸 Stories
+              </div>
+            </div>
+            
+            <div className="absolute top-1/2 right-4 transform -translate-y-1/2">
+              <div className="bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-medium text-green-600 shadow-sm animate-float-2">
+                🔗 Connect
+              </div>
+            </div>
+            
+            {/* Interactive Hover Effect */}
+            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 to-purple-500/5 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
+          </div>
         </div>
         {/* Community Avatars Row */}
         <div className="relative z-10 flex items-center justify-center gap-2 mb-6 flex-wrap">
